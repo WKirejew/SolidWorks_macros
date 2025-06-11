@@ -86,5 +86,120 @@ swApp.CloseDoc partName3
 '--------------------------------------------------------
 '--------------Adding-Mates------------------------------
 '--------------------------------------------------------
+Dim swDocExt As ModelDocExtension
+Dim swAssy As AssemblyDoc
+Dim swModel As ModelDoc2
+Dim boolstat As Boolean, stat As Boolean
+Dim strings As Variant
+Dim matefeature As SldWorks.Feature
+Dim MateName As String
+Dim FirstSelection As String
+Dim SecondSelection As String
+Dim śruba As String
+Dim podkładka As String
+Dim sprężyna As String
+Dim nakrętka As String
+Dim AssemblyTitle As String
+Dim AssemblyName As String
+Dim mateError As Long
+
+' Open assembly
+Set swModel = swAssembly
+Set swAssy = swModel
+' Get title of assembly document
+AssemblyTitle = swModel.GetTitle
+' Split the title into two strings using the period as the delimiter
+strings = Split(AssemblyTitle, ".")
+' Use AssemblyName when mating the component with the assembly
+AssemblyName = strings(0)
+boolstat = True
+'---------------------------------------------------------
+' Get the name of the components for the mates
+śruba = swcomponent.Name2()
+podkładka = swcomponent1.Name2()
+sprężyna = swcomponent2.Name2()
+nakrętka = swcomponent3.Name2()
+'-----------------------------------------------------------
+'---------------------Mates for the screw-------------------
+'-----------------------------------------------------------
+' Create the name of the mate and the names of the planes to use for the mate
+MateName = "Śruba wzdłużne"
+FirstSelection = "Plane1@" + śruba + "@" + AssemblyName
+SecondSelection = "Płaszczyzna przednia (XY)@" + AssemblyName
+swModel.ClearSelection2 (True)
+' Select the planes to mate
+boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+' Add the mate
+Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+matefeature.Name = MateName
+swModel.ClearSelection2 (True)
+'-----------------------------------------------------------
+' Create the name of the mate and the names of the planes to use for the mate
+MateName = "Śruba poprzeczne"
+FirstSelection = "Plane2@" + śruba & "@" + AssemblyName
+SecondSelection = "Płaszczyzna górna (XZ)@" + AssemblyName
+swModel.ClearSelection2 (True)
+' Select the planes to mate
+boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+' Add the mate1
+Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+matefeature.Name = MateName
+swModel.ClearSelection2 (True)
+'-----------------------------------------------------------
+' Create the name of the mate and the names of the planes to use for the mate
+MateName = "Śruba czoło"
+FirstSelection = "Plane3@" + śruba & "@" + AssemblyName
+SecondSelection = "Płaszczyzna prawa (ZY)@" + AssemblyName
+swModel.ClearSelection2 (True)
+' Select the planes to mate
+boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+' Add the mate
+Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+matefeature.Name = MateName
+swModel.ClearSelection2 (True)
+'-----------------------------------------------------------
+'---------------------Mates for the pad---------------------
+'-----------------------------------------------------------
+' Create the name of the mate and the names of the planes to use for the mate
+MateName = "Śruba-podkładka wzdłużne"
+FirstSelection = "Plane1@" + śruba & "@" + AssemblyName
+SecondSelection = "Plane1@" + podkładka & "@" + AssemblyName
+swModel.ClearSelection2 (True)
+' Select the planes to mate
+boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+' Add the mate
+Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+matefeature.Name = MateName
+swModel.ClearSelection2 (True)
+'-----------------------------------------------------------
+' Create the name of the mate and the names of the planes to use for the mate
+MateName = "Śruba-podkładka wzdłużne"
+FirstSelection = "Plane2@" + śruba & "@" + AssemblyName
+SecondSelection = "Plane2@" + podkładka & "@" + AssemblyName
+swModel.ClearSelection2 (True)
+' Select the planes to mate
+boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+' Add the mate
+Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+matefeature.Name = MateName
+swModel.ClearSelection2 (True)
+'-----------------------------------------------------------
+' Create the name of the mate and the names of the planes to use for the mate
+MateName = "Śruba-podkładka wzdłużne"
+FirstSelection = "Plane3@" + śruba & "@" + AssemblyName
+SecondSelection = "Plane3@" + podkładka & "@" + AssemblyName
+swModel.ClearSelection2 (True)
+' Select the planes to mate
+boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+' Add the mate
+Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0.075, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+matefeature.Name = MateName
+swModel.ClearSelection2 (True)
 
 End Sub
