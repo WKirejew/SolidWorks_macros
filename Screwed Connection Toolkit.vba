@@ -44,7 +44,7 @@ Dim nakrętka As String
 Dim AssemblyTitle As String
 Dim AssemblyName As String
 Dim mateError As Long
-
+'Variables derived from UserForm
 Public Rozmiar As String
 Public Gwint As String
 Public L0 As Double
