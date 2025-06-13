@@ -1,7 +1,3 @@
-Dim swDoc As SldWorks.ModelDoc2
-Dim swDoc1 As SldWorks.ModelDoc2
-
-
 Private Sub CheckBox1_Click()
 
 Frame2.Enabled = CheckBox3.Value And CheckBox1.Value
@@ -68,17 +64,15 @@ ComboBox6.List() = pdkls
 
 End Sub
 
+Private Sub ComboBox7_Change()
+
+Select Case ComboBox7.Value
+Case A
+End Sub
+
 Private Sub ComboBox7_DropButtonClick()
 
-Dim A As String
-Dim B As String
-Dim C As String
-Dim D As String
-Dim E As String
-Dim F As String
-Dim G As String
-Dim H As String
-Dim I As String
+
 A = "Nakrętka sześciokątna niska stal nierdzewna DIN 439"
 B = "Nakrętka sześciokątna ocynk DIN 934"
 C = "Nakrętka sześciokątna samokontrująca czarna oksydacja DIN 985"
@@ -88,10 +82,27 @@ F = "Nakrętka sześciokątna stal nierdzewna DIN 934"
 G = "Nakrętka z uchem czarna oksydacja DIN 582"
 H = "Nakrętka z uchem ocynk DIN 582"
 I = "Nakrętka z uchem stal nierdzewna DIN 582"
-
+J = "Nakrętka kołpakowa czarna oksydacja DIN 1587"
+K = "Nakrętka kołpakowa drobnozwojna czarna oksydacja DIN 1587"
+L = "Nakrętka kołpakowa drobnozwojna ocynk DIN 1587"
+M = "Nakrętka kołpakowa drobnozwojna stal nierdzewna DIN 1587"
+N = "Nakrętka kołpakowa ocynk DIN 1587"
+O = "Nakrętka kołpakowa stal nierdzewna DIN 1587"
+P = "Nakrętka skrzydełkowa czarna oksydacja DIN 315"
+R = "Nakrętka skrzydełkowa ocynk DIN 315"
+S = "Nakrętka skrzydełkowa stal nierdzewna DIN 315"
+T = "Nakrętka skrzydełkowa stal nierdzewna DIN 315"
+U = "Nakrętka sześciokątna drobnozwojna czarna oksydacja DIN 934"
+V = "Nakrętka sześciokątna drobnozwojna ocynk DIN 934"
+W = "Nakrętka sześciokątna drobnozwojna stal nierdzewna DIN 934"
+X = "Nakrętka sześciokątna niska czarna oksydacja DIN 439"
+Y = "Nakrętka sześciokątna niska drobnozwojna czarna oksydacja DIN 439"
+Z = "Nakrętka sześciokątna niska drobnozwojna ocynk DIN 439"
+AA = "Nakrętka sześciokątna niska drobnozwojna stal nierdzewna DIN 439"
+AB = "Nakrętka sześciokątna niska ocynk DIN 439"
 
 Dim Typy As Variant
-Typy = Array("Nakrętka kołpakowa czarna oksydacja DIN 1587", "Nakrętka kołpakowa drobnozwojna czarna oksydacja DIN 1587", "Nakrętka kołpakowa drobnozwojna ocynk DIN 1587", "Nakrętka kołpakowa drobnozwojna stal nierdzewna DIN 1587", "Nakrętka kołpakowa ocynk DIN 1587", "Nakrętka kołpakowa stal nierdzewna DIN 1587", "Nakrętka skrzydełkowa czarna oksydacja DIN 315", "Nakrętka skrzydełkowa ocynk DIN 315", "Nakrętka skrzydełkowa stal nierdzewna DIN 315", "Nakrętka sześciokątna czarna oksydacja DIN 934", "Nakrętka sześciokątna drobnozwojna czarna oksydacja DIN 934", "Nakrętka sześciokątna drobnozwojna ocynk DIN 934", "Nakrętka sześciokątna drobnozwojna stal nierdzewna DIN 934", "Nakrętka sześciokątna niska czarna oksydacja DIN 439", "Nakrętka sześciokątna niska drobnozwojna czarna oksydacja DIN 439", "Nakrętka sześciokątna niska drobnozwojna ocynk DIN 439", "Nakrętka sześciokątna niska drobnozwojna stal nierdzewna DIN 439", "Nakrętka sześciokątna niska ocynk DIN 439", A, B, C, D, E, F, G, H, I)
+Typy = Array(J, K, L, M, N, O, P, R, S, T, U, V, W, X, Y, Z, AA, AB, A, B, C, D, E, F, G, H, I)
 ComboBox7.List() = Typy
 
 End Sub
@@ -150,5 +161,38 @@ Private Sub TextBox2_Change()
 End Sub
 
 Private Sub UserForm_Click()
+
+End Sub
+
+Private Sub UserForm_Initialize()
+
+Dim A As String
+Dim B As String
+Dim C As String
+Dim D As String
+Dim E As String
+Dim F As String
+Dim G As String
+Dim H As String
+Dim I As String
+Dim K As String
+Dim L As String
+Dim M As String
+Dim N As String
+Dim O As String
+Dim P As String
+Dim R As String
+Dim S As String
+Dim T As String
+Dim U As String
+Dim V As String
+Dim W As String
+Dim Y As String
+Dim Z As String
+Dim X As String
+Dim AA As String
+Dim AB As String
+Dim swDoc As SldWorks.ModelDoc2
+Dim swDoc1 As SldWorks.ModelDoc2
 
 End Sub
