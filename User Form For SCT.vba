@@ -1,3 +1,36 @@
+Private Sub UserForm_Initialize()
+
+Dim A As String
+Dim B As String
+Dim C As String
+Dim D As String
+Dim E As String
+Dim F As String
+Dim G As String
+Dim H As String
+Dim I As String
+Dim K As String
+Dim L As String
+Dim M As String
+Dim N As String
+Dim O As String
+Dim P As String
+Dim R As String
+Dim S As String
+Dim T As String
+Dim U As String
+Dim V As String
+Dim W As String
+Dim Y As String
+Dim Z As String
+Dim X As String
+Dim AA As String
+Dim AB As String
+Dim swDoc As SldWorks.ModelDoc2
+Dim swDoc1 As SldWorks.ModelDoc2
+
+End Sub
+
 Private Sub CheckBox1_Click()
 
 Frame2.Enabled = CheckBox3.Value And CheckBox1.Value
@@ -9,6 +42,9 @@ Private Sub CheckBox3_Change()
 
 Frame2.Enabled = CheckBox3.Value And CheckBox1.Value
 ComboBox5.Enabled = CheckBox3.Value
+If CheckBox3.Value = True Then
+    ComboBox5.Value = ComboBox3.Value
+End If
 
 End Sub
 
@@ -32,10 +68,18 @@ ComboBox1.List() = Gwinty
 
 End Sub
 
+Private Sub ComboBox3_Change()
+
+If CheckBox3.Value = True Then
+    ComboBox5.Value = ComboBox3.Value
+End If
+
+End Sub
+
 Private Sub ComboBox3_DropButtonClick()
 
 Dim Pdkl As Variant
-Pdkl = Array("Podkładka falista czarna oksydacja DIN 137", "Podkładka falista ocynk DIN 137", "Podkładka falista stal nierdzewna DIN 137", "Podkładka okrągła czarna oksydacja DIN 125", "Podkładka okrągła ocynk DIN 125", "Podkładka okrągła powiększona czarna oksydacja DIN_9021", "Podkładka okrągła powiększona ocynk DIN 9021", "Podkładka okrągła powiększona stal nierdzewna DIN 9021", "Podkładka okrągła stal nierdzewna DIN 125", "Podkładka ząbkowana czarna oksydacja DIN 6798", "Podkładka ząbkowana ocynk DIN 6798", "Podkładka ząbkowana stal nierdzewna DIN 6798")
+Pdkl = Array("Podkładka falista czarna oksydacja DIN 137", "Podkładka falista ocynk DIN 137", "Podkładka okrągła czarna oksydacja DIN 125", "Podkładka okrągła ocynk DIN 125", "Podkładka okrągła powiększona czarna oksydacja DIN_9021", "Podkładka okrągła powiększona ocynk DIN 9021", "Podkładka okrągła powiększona stal nierdzewna DIN 9021", "Podkładka okrągła stal nierdzewna DIN 125", "Podkładka ząbkowana czarna oksydacja DIN 6798", "Podkładka ząbkowana ocynk DIN 6798", "Podkładka ząbkowana stal nierdzewna DIN 6798")
 ComboBox3.List() = Pdkl
 
 End Sub
@@ -43,16 +87,30 @@ End Sub
 Private Sub ComboBox4_DropButtonClick()
 
 Dim Typy As Variant
-Typy = Array("Śruba z łbem radełkowanym czarna oksydacja DIN 653", "Śruba z łbem radełkowanym niskim ocynk DIN 653", "Śruba z łbem radełkowanym stal nierdzewna DIN 653", "Śruba z łbem sześciokątnym czarna oksydacja DIN 931", "Śruba z łbem sześciokątnym ocynk DIN 931", "Śruba z łbem sześciokątnym ocynk DIN 933", "Śruba z łbem sześciokątnym stal nierdzewna DIN 931")
+Typy = Array("Śruba z łbem radełkowanym czarna oksydacja DIN 653", "Śruba z łbem radełkowanym niskim ocynk DIN 653", "Śruba z łbem radełkowanym stal nierdzewna DIN 653", "Śruba z łbem sześciokątnym czarna oksydacja DIN 931", "Śruba z łbem sześciokątnym ocynk DIN 931", "Śruba z łbem sześciokątnym ocynk DIN 933", "Śruba z łbem sześciokątnym stal nierdzewna DIN 931", "Wkręt soczewka ampul czarna oksydacja DIN 7380", "Wkręt soczewka ampul ocynk DIN 7380", "Wkręt soczewka ampul stal nierdzewna DIN 7380", "Wkręt stożkowy ampul czarna oksydacja DIN 7991", "Wkręt stożkowy ampul czarna stal nierdzewna DIN 7991", "Wkręt stożkowy ampul ocynk DIN 7991", "Wkręt stożkowy krzyżak czarna oksydacja DIN 965", "Wkręt stożkowy krzyżak ocynk DIN_965", "Wkręt stożkowy krzyżak stal nierdzewna DIN 965")
 ComboBox4.List() = Typy
+
+End Sub
+
+Private Sub ComboBox4_Change()
+
+End Sub
+
+
+Private Sub ComboBox5_Change()
+
 
 End Sub
 
 Private Sub ComboBox5_DropButtonClick()
 
 Dim pdkl1 As Variant
-pdkl1 = Array("Podkładka falista czarna oksydacja DIN 137", "Podkładka falista ocynk DIN 137", "Podkładka falista stal nierdzewna DIN 137", "Podkładka okrągła czarna oksydacja DIN 125", "Podkładka okrągła ocynk DIN 125", "Podkładka okrągła powiększona czarna oksydacja DIN_9021", "Podkładka okrągła powiększona ocynk DIN 9021", "Podkładka okrągła powiększona stal nierdzewna DIN 9021", "Podkładka okrągła stal nierdzewna DIN 125", "Podkładka ząbkowana czarna oksydacja DIN 6798", "Podkładka ząbkowana ocynk DIN 6798", "Podkładka ząbkowana stal nierdzewna DIN 6798")
+pdkl1 = Array("Podkładka falista czarna oksydacja DIN 137", "Podkładka falista ocynk DIN 137", "Podkładka okrągła czarna oksydacja DIN 125", "Podkładka okrągła ocynk DIN 125", "Podkładka okrągła powiększona czarna oksydacja DIN_9021", "Podkładka okrągła powiększona ocynk DIN 9021", "Podkładka okrągła powiększona stal nierdzewna DIN 9021", "Podkładka okrągła stal nierdzewna DIN 125", "Podkładka ząbkowana czarna oksydacja DIN 6798", "Podkładka ząbkowana ocynk DIN 6798", "Podkładka ząbkowana stal nierdzewna DIN 6798")
 ComboBox5.List() = pdkl1
+
+End Sub
+
+Private Sub ComboBox6_Change()
 
 End Sub
 
@@ -62,12 +120,14 @@ Dim pdkls As Variant
 pdkls = Array("Podkładka sprężysta czarna oksydacja DIN 127", "Podkładka sprężysta ocynk DIN 127", "Podkładka sprężysta stal nierdzewna DIN 127")
 ComboBox6.List() = pdkls
 
+
 End Sub
 
 Private Sub ComboBox7_Change()
 
 Select Case ComboBox7.Value
 Case A
+End Select
 End Sub
 
 Private Sub ComboBox7_DropButtonClick()
@@ -107,36 +167,11 @@ ComboBox7.List() = Typy
 
 End Sub
 
-Private Sub ExitButton_Click()
-    
-    Unload Me
-    
-End Sub
-
 Private Sub Frame1_Click()
 
 End Sub
 
 Private Sub Label1_Click()
-
-End Sub
-
-Private Sub OkButton_Click()
-    
-    Rozmiar = ComboBox1.Value
-    L0 = TextBox1.Value
-    L1 = TextBox2.Value
-    srb = CheckBox2.Value
-    pdkl1 = CheckBox1.Value
-    pdkl2 = CheckBox3.Value
-    pdkls = CheckBox4.Value
-    nkrtk = CheckBox5.Value
-    srb_n = ComboBox4.Value
-    pdkl1_n = ComboBox3.Value
-    pdkl2_n = ComboBox5.Value
-    pdkls_n = ComboBox6.Value
-    nkrtk_n = ComboBox7.Value
-    Unload ParametryPołączenia
 
 End Sub
 
@@ -164,35 +199,185 @@ Private Sub UserForm_Click()
 
 End Sub
 
-Private Sub UserForm_Initialize()
+Private Sub ExitButton_Click()
+    
+    Unload Me
+    
+End Sub
 
-Dim A As String
-Dim B As String
-Dim C As String
-Dim D As String
-Dim E As String
-Dim F As String
-Dim G As String
-Dim H As String
-Dim I As String
-Dim K As String
-Dim L As String
-Dim M As String
-Dim N As String
-Dim O As String
-Dim P As String
-Dim R As String
-Dim S As String
-Dim T As String
-Dim U As String
-Dim V As String
-Dim W As String
-Dim Y As String
-Dim Z As String
-Dim X As String
-Dim AA As String
-Dim AB As String
-Dim swDoc As SldWorks.ModelDoc2
-Dim swDoc1 As SldWorks.ModelDoc2
+Private Sub OkButton_Click()
+    
+Select Case ComboBox3.Value
+    Case "Podkładka falista czarna oksydacja DIN 137"
+        pdk_DIN = "DIN 137"
+        pdk_mat = " co"
+    Case "Podkładka falista ocynk DIN 137"
+        pdk_DIN = "DIN 137"
+        pdk_mat = " oc"
+    'Case "Podkładka falista stal nierdzewna DIN 137"
+        'pdk_DIN = "DIN 137"
+        'pdk_mat = " sn"
+    Case "Podkładka okrągła czarna oksydacja DIN 125"
+        pdk_DIN = "DIN 125"
+        pdk_mat = " co"
+    Case "Podkładka okrągła ocynk DIN 125"
+        pdk_DIN = "DIN 125"
+        pdk_mat = " oc"
+    Case "Podkładka okrągła stal nierdzewna DIN 125"
+        pdk_DIN = "DIN 125"
+        pdk_mat = " sn"
+    Case "Podkładka okrągła powiększana czarna oksydacja DIN_9021"
+        pdk_DIN = "DIN 9021"
+        pdk_mat = " co"
+    Case "Podkładka okrągła powiększana ocynk DIN 9021"
+        pdk_DIN = "DIN 9021"
+        pdk_mat = " oc"
+    Case "Podkładka okrągła powiększana stal nierdzewna DIN 9021"
+        pdk_DIN = "DIN 9021"
+        pdk_mat = " sn"
+    Case "Podkładka ząbkowana czarna oksydacja DIN 6798"
+        pdk_DIN = "DIN 6798"
+        pdk_mat = " co"
+    Case "Podkładka ząbkowana ocynk DIN 6798"
+        pdk_DIN = "DIN 6798"
+        pdk_mat = " oc"
+    Case "Podkładka ząbkowana stal nierdzewna DIN 6798"
+        pdk_DIN = "DIN 6798"
+        pdk_mat = " sn"
+End Select
+ 
+Select Case ComboBox4.Value
+    Case "Śruba z łbem radełkowanym czarna oksydacja DIN 653"
+        srb_DIN = "DIN 653"
+        srb_mat = " co"
+        srb_typ = "Śruby/"
+    Case "Śruba z łbem radełkowanym ocynk DIN 653"
+        srb_DIN = "DIN 653"
+        srb_mat = " oc"
+        srb_typ = "Śruby/"
+    Case "Śruba z łbem radełkowanym stal nierdzewna DIN 653"
+        srb_DIN = "DIN 653"
+        srb_mat = " sn"
+        srb_typ = "Śruby/"
+    Case "Śruba z łbem sześciokątnym czarna oksydacja DIN 931"
+        srb_DIN = "DIN 931"
+        srb_mat = " co"
+        srb_typ = "Śruby/"
+    Case "Śruba z łbem sześciokątnym ocynk DIN 931"
+        srb_DIN = "DIN 931"
+        srb_mat = " oc"
+        srb_typ = "Śruby/"
+    Case "Śruba z łbem sześciokątnym stal nierdzewna DIN 931"
+        srb_DIN = "DIN 931"
+        srb_mat = " sn"
+        srb_typ = "Śruby/"
+    Case "Śruba z łbem sześciokątnym ocynk DIN 933"
+        srb_DIN = "DIN 933"
+        srb_mat = " oc"
+        srb_typ = "Śruby/"
+    Case "Wkręt soczewka ampul czarna oksydacja DIN 7380"
+        srb_DIN = "DIN 7380"
+        srb_mat = " co"
+        srb_typ = "Wkręty soczewki/"
+    Case "Wkręt soczewka ampul ocynk DIN 7380"
+        srb_DIN = "DIN 7380"
+        srb_mat = " oc"
+        srb_typ = "Wkręty soczewki/"
+    Case "Wkręt soczewka ampul stal nierdzewna DIN 7380"
+        srb_DIN = "DIN 7380"
+        srb_mat = " sn"
+        srb_typ = "Wkręty soczewki/"
+    Case "Wkręt stożkowy ampul czarna oksydacja DIN 7991"
+        srb_DIN = "DIN 7991"
+        srb_mat = " co"
+        srb_typ = "Wkręty stożki/"
+    Case "Wkręt stożkowy ampul ocynk DIN 7991"
+        srb_DIN = "DIN 7991"
+        srb_mat = " oc"
+        srb_typ = "Wkręty stożki/"
+    Case "Wkręt stożkowy ampul stal nierdzewna DIN 7991"
+        srb_DIN = "DIN 7991"
+        srb_mat = " sn"
+        srb_typ = "Wkręty stożki/"
+    Case "Wkręt stożkowy krzyżak czarna oksydacja DIN 965"
+        srb_DIN = "DIN 965"
+        srb_mat = " co"
+        srb_typ = "Wkręty stożki/"
+    Case "Wkręt stożkowy krzyżak ocynk DIN 965"
+        srb_DIN = "DIN 965"
+        srb_mat = " oc"
+        srb_typ = "Wkręty stożki/"
+    Case "Wkręt stożkowy krzyżak stal nierdzewna DIN 965"
+        srb_DIN = "DIN 965"
+        srb_mat = " sn"
+        srb_typ = "Wkręty stożki/"
+End Select
+
+Select Case ComboBox5.Value
+    Case "Podkładka falista czarna oksydacja DIN 137"
+        pd2_DIN = "DIN 137"
+        pd2_mat = " co"
+    Case "Podkładka falista ocynk DIN 137"
+        pd2_DIN = "DIN 137"
+        pd2_mat = " oc"
+    'Case "Podkładka falista stal nierdzewna DIN 137"
+        'pd2_DIN = "DIN 137"
+        'pd2_mat = " sn"
+    Case "Podkładka okrągła czarna oksydacja DIN 125"
+        pd2_DIN = "DIN 125"
+        pd2_mat = " co"
+    Case "Podkładka okrągła ocynk DIN 125"
+        pd2_DIN = "DIN 125"
+        pd2_mat = " oc"
+    Case "Podkładka okrągła stal nierdzewna DIN 125"
+        pd2_DIN = "DIN 125"
+        pd2_mat = " sn"
+    Case "Podkładka okrągła powiększana czarna oksydacja DIN_9021"
+        pd2_DIN = "DIN 9021"
+        pd2_mat = " co"
+    Case "Podkładka okrągła powiększana ocynk DIN 9021"
+        pd2_DIN = "DIN 9021"
+        pd2_mat = " oc"
+    Case "Podkładka okrągła powiększana stal nierdzewna DIN 9021"
+        pd2_DIN = "DIN 9021"
+        pd2_mat = " sn"
+    Case "Podkładka ząbkowana czarna oksydacja DIN 6798"
+        pd2_DIN = "DIN 6798"
+        pd2_mat = " co"
+    Case "Podkładka ząbkowana ocynk DIN 6798"
+        pd2_DIN = "DIN 6798"
+        pd2_mat = " oc"
+    Case "Podkładka ząbkowana stal nierdzewna DIN 6798"
+        pd2_DIN = "DIN 6798"
+        pd2_mat = " sn"
+End Select
+  
+Select Case ComboBox6.Value
+    Case "Podkładka sprężysta czarna oksydacja DIN 127"
+        pds_DIN = "DIN 127"
+        pds_mat = " co"
+    Case "Podkładka sprężysta ocynk DIN 127"
+        pds_DIN = "DIN 127"
+        pds_mat = " oc"
+    Case "Podkładka sprężysta stal nierdzewna DIN 127"
+        pds_DIN = "DIN 127"
+        pds_mat = " sn"
+End Select
+
+    Rozmiar = ComboBox1.Value
+    L0 = TextBox1.Value
+    L1 = TextBox2.Value
+    srb = CheckBox2.Value
+    pdkl1 = CheckBox1.Value
+    pdkl2 = CheckBox3.Value
+    pdkls = CheckBox4.Value
+    nkrtk = CheckBox5.Value
+    srb_n = ComboBox4.Value
+    pdkl1_n = ComboBox3.Value
+    pdkl2_n = ComboBox5.Value
+    pdkls_n = ComboBox6.Value
+    nkrtk_n = ComboBox7.Value
+    Unload ParametryPołączenia
 
 End Sub
+
