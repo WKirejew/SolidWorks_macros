@@ -72,6 +72,7 @@ Public nkr_mat As String
 Public nkr_DIN As String
 
 Dim Error1 As Boolean
+Dim Exit1 As Boolean
 
 
 Sub main()
@@ -83,6 +84,10 @@ Dim defaultTemplate As String
 defaultTemplate = swApp.GetUserPreferenceStringValue(swUserPreferenceStringValue_e.swDefaultTemplatePart)
 'Opening the User Form for data
 ParametryPołączenia.Show
+
+If Exit1 = True Then
+    GoTo ent
+End If
 'Creating new Assembly
 defaultTemplate = swApp.GetUserPreferenceStringValue(swUserPreferenceStringValue_e.swDefaultTemplateAssembly)
 Set swDoc0 = swApp.NewDocument(defaultTemplate, 0, 0, 0)
@@ -92,7 +97,6 @@ Set swDoc0 = swApp.NewDocument(defaultTemplate, 0, 0, 0)
 'Opening 1st file
 If srb = True Then
     Set swDoc = swApp.OpenDoc6("P:\!PRJ_SW\!SOLIDWORKS Data\browser\Organic\" + srb_typ + srb_n + ".SLDPRT", swDocumentTypes_e.swDocPART, swOpenDocOptions_e.swOpenDocOptions_Silent, srb_DIN + " - " + Rozmiar + " x " + CStr(L0) + srb_mat, 0, 0)
-    MsgBox swDoc.GetTitle
     partName = swDoc.GetTitle
     'Checking if we get a file name
     If Len(partName) = 0 Then
@@ -141,12 +145,12 @@ If pdkl2 = True Then
     End If
 End If
 '---------------------------------------------------------
-'Passing widths of elements
-Set swSelMgr = swDoc.SelectionManager
-
+'----------Passing widths of elements---------------------
+'---------------------------------------------------------
 'Finding and Saving thickness of a head of a screw
 On Error GoTo ErrorHandler
 If srb = True Then
+    Set swSelMgr = swDoc.SelectionManager
     boolstat = swDoc.Extension.SelectByID2("BaseHead@" + partName, "EXTRUSION", 0, 0, 0, True, 0, Nothing, 0)
     Set swDim = swDoc.Parameter("Head_ht@BaseHead")
     dimValue = swDim.GetSystemValue3(swThisConfiguration, Empty)
@@ -155,6 +159,7 @@ End If
 
 'Thickness of a pad
 If pdkl1 = True Then
+    Set swSelMgr = swDoc1.SelectionManager
     boolstat = swDoc1.Extension.SelectByID2("Base-Revolve@" + partName1, "REVOLUTION", 0, 0, 0, True, 0, Nothing, 0)
     Set swDim = swDoc1.Parameter("Thickness@Sketch1")
     dimValue = swDim.GetSystemValue3(swThisConfiguration, Empty)
@@ -163,6 +168,7 @@ End If
 Pad:
 'Thickness of a spring pad
 If pdkls = True Then
+    Set swSelMgr = swDoc2.SelectionManager
     boolstat = swDoc2.Extension.SelectByID2("Base-Revolve@" + partName2, "REVOLUTION", 0, 0, 0, True, 0, Nothing, 0)
     Set swDim = swDoc2.Parameter("Thickness@Sketch1")
     dimValue = swDim.GetSystemValue3(swThisConfiguration, Empty)
@@ -231,14 +237,28 @@ strings = Split(AssemblyTitle, ".")
 AssemblyName = strings(0)
 boolstat = True
 Set swDocExt = swModel.Extension
-Set swSelMgr = swDoc.SelectionManager
+
 '---------------------------------------------------------
 ' Get the name of the components for the mates
-Sruba = swcomponent.Name2()
-podkładka = swcomponent1.Name2()
-sprężyna = swcomponent2.Name2()
-nakrętka = swcomponent3.Name2()
-podkładka2 = swcomponent4.Name2()
+If srb = True Then
+    Set swSelMgr = swDoc.SelectionManager
+    Sruba = swcomponent.Name2()
+End If
+If pdkl1 = True Then
+    If srb = False Then
+        Set swSelMgr = swDoc1.SelectionManager
+    End If
+    podkładka = swcomponent1.Name2()
+End If
+If pdkls = True Then
+    sprężyna = swcomponent2.Name2()
+End If
+If nkrtk = True Then
+    nakrętka = swcomponent3.Name2()
+End If
+If pdkl2 = True Then
+    podkładka2 = swcomponent4.Name2()
+End If
 '-----------------------------------------------------------
 '---------------------Mates for the screw-------------------
 '-----------------------------------------------------------
@@ -369,127 +389,257 @@ End If
 '-----------------------------------------------------------
 '---------------------Mates for the 2nd pad-----------------
 '-----------------------------------------------------------
-' Create the name of the mate and the names of the planes to use for the mate
-MateName = "Podkładka-podkładka wzdłużne"
-FirstSelection = "Plane1@" + podkładka & "@" + AssemblyName
-SecondSelection = "Plane1@" + podkładka2 & "@" + AssemblyName
-swModel.ClearSelection2 (True)
-' Select the planes to mate
-boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-' Add the mate
-Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
-matefeature.name = MateName
-swModel.ClearSelection2 (True)
-'-----------------------------------------------------------
-' Create the name of the mate and the names of the planes to use for the mate
-MateName = "Podkładka-podkładka poprzeczne"
-FirstSelection = "Plane2@" + podkładka & "@" + AssemblyName
-SecondSelection = "Plane2@" + podkładka2 & "@" + AssemblyName
-swModel.ClearSelection2 (True)
-' Select the planes to mate
-boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-' Add the mate
-Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
-matefeature.name = MateName
-swModel.ClearSelection2 (True)
-'-----------------------------------------------------------
-' Create the name of the mate and the names of the planes to use for the mate
-MateName = "Podkładka-podkładka czołowe"
-FirstSelection = "Plane3@" + podkładka & "@" + AssemblyName
-SecondSelection = "Plane3@" + podkładka2 & "@" + AssemblyName
-swModel.ClearSelection2 (True)
-' Select the planes to mate
-boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-' Add the mate
-Set matefeature = swAssy.AddMate5(swMateDISTANCE, swMateAlignANTI_ALIGNED, True, L1 / 1000, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
-matefeature.name = MateName
-swModel.ClearSelection2 (True)
+If pdkl2 = True Then
+    ' Create the name of the mate and the names of the planes to use for the mate
+    MateName = "Podkładka-podkładka wzdłużne"
+    FirstSelection = "Plane1@" + podkładka & "@" + AssemblyName
+    SecondSelection = "Plane1@" + podkładka2 & "@" + AssemblyName
+    swModel.ClearSelection2 (True)
+    ' Select the planes to mate
+    boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+    boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+    ' Add the mate
+    Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+    matefeature.name = MateName
+    swModel.ClearSelection2 (True)
+    '-----------------------------------------------------------
+    ' Create the name of the mate and the names of the planes to use for the mate
+    MateName = "Podkładka-podkładka poprzeczne"
+    FirstSelection = "Plane2@" + podkładka & "@" + AssemblyName
+    SecondSelection = "Plane2@" + podkładka2 & "@" + AssemblyName
+    swModel.ClearSelection2 (True)
+    ' Select the planes to mate
+    boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+    boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+    ' Add the mate
+    Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+    matefeature.name = MateName
+    swModel.ClearSelection2 (True)
+    '-----------------------------------------------------------
+    ' Create the name of the mate and the names of the planes to use for the mate
+    MateName = "Podkładka-podkładka czołowe"
+    FirstSelection = "Plane3@" + podkładka & "@" + AssemblyName
+    SecondSelection = "Plane3@" + podkładka2 & "@" + AssemblyName
+    swModel.ClearSelection2 (True)
+    ' Select the planes to mate
+    boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+    boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+    ' Add the mate
+    Set matefeature = swAssy.AddMate5(swMateDISTANCE, swMateAlignANTI_ALIGNED, True, 2 * D_podkładka + L1 / 1000, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+    matefeature.name = MateName
+    swModel.ClearSelection2 (True)
+End If
 '-----------------------------------------------------------
 '-------------------Mates for the spring pad----------------
 '-----------------------------------------------------------
-' Create the name of the mate and the names of the planes to use for the mate
-MateName = "Podkładka-sprężyna wzdłużne"
-FirstSelection = "Plane1@" + podkładka2 & "@" + AssemblyName
-SecondSelection = "Plane1@" + sprężyna & "@" + AssemblyName
-swModel.ClearSelection2 (True)
-' Select the planes to mate
-boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-' Add the mate
-Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
-matefeature.name = MateName
-swModel.ClearSelection2 (True)
-'-----------------------------------------------------------
-' Create the name of the mate and the names of the planes to use for the mate
-MateName = "Podkładka-sprężyna poprzeczne"
-FirstSelection = "Plane2@" + podkładka2 & "@" + AssemblyName
-SecondSelection = "Plane2@" + sprężyna & "@" + AssemblyName
-swModel.ClearSelection2 (True)
-' Select the planes to mate
-boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-' Add the mate
-Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
-matefeature.name = MateName
-swModel.ClearSelection2 (True)
-'-----------------------------------------------------------
-' Create the name of the mate and the names of the planes to use for the mate
-MateName = "Podkładka-sprężyna czołowe"
-FirstSelection = "Plane3@" + podkładka2 & "@" + AssemblyName
-SecondSelection = "Plane3@" + sprężyna & "@" + AssemblyName
-swModel.ClearSelection2 (True)
-' Select the planes to mate
-boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-' Add the mate
-Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, True, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
-matefeature.name = MateName
-swModel.ClearSelection2 (True)
+If pdkls = True Then
+    If pdkl2 = True Then
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-sprężyna wzdłużne"
+        FirstSelection = "Plane1@" + podkładka2 & "@" + AssemblyName
+        SecondSelection = "Plane1@" + sprężyna & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-sprężyna poprzeczne"
+        FirstSelection = "Plane2@" + podkładka2 & "@" + AssemblyName
+        SecondSelection = "Plane2@" + sprężyna & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-sprężyna czołowe"
+        FirstSelection = "Plane3@" + podkładka2 & "@" + AssemblyName
+        SecondSelection = "Plane3@" + sprężyna & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, True, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+    End If
+    If pdkl1 = True Then
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-sprężyna wzdłużne"
+        FirstSelection = "Plane1@" + podkładka & "@" + AssemblyName
+        SecondSelection = "Plane1@" + sprężyna & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-sprężyna poprzeczne"
+        FirstSelection = "Plane2@" + podkładka & "@" + AssemblyName
+        SecondSelection = "Plane2@" + sprężyna & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-sprężyna czołowe"
+        FirstSelection = "Plane3@" + podkładka & "@" + AssemblyName
+        SecondSelection = "Plane3@" + sprężyna & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, True, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+    End If
+End If
 '-----------------------------------------------------------
 '----------------------Mates for the nut--------------------
 '-----------------------------------------------------------
-' Create the name of the mate and the names of the planes to use for the mate
-MateName = "Podkładka-sprężyna wzdłużne"
-FirstSelection = "Plane3@" + nakrętka & "@" + AssemblyName
-SecondSelection = "Plane1@" + sprężyna & "@" + AssemblyName
-swModel.ClearSelection2 (True)
-' Select the planes to mate
-boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-' Add the mate
-Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
-matefeature.name = MateName
-swModel.ClearSelection2 (True)
-'-----------------------------------------------------------
-' Create the name of the mate and the names of the planes to use for the mate
-MateName = "Podkładka-sprężyna poprzeczne"
-FirstSelection = "Plane2@" + nakrętka & "@" + AssemblyName
-SecondSelection = "Plane2@" + sprężyna & "@" + AssemblyName
-swModel.ClearSelection2 (True)
-' Select the planes to mate
-boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-' Add the mate
-Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
-matefeature.name = MateName
-swModel.ClearSelection2 (True)
-'-----------------------------------------------------------
-' Create the name of the mate and the names of the planes to use for the mate
-MateName = "Podkładka-sprężyna czołowe"
-FirstSelection = "Plane1@" + nakrętka & "@" + AssemblyName
-SecondSelection = "Plane3@" + sprężyna & "@" + AssemblyName
-swModel.ClearSelection2 (True)
-' Select the planes to mate
-boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
-' Add the mate
-Set matefeature = swAssy.AddMate5(swMateDISTANCE, swMateAlignALIGNED, False, D_sprężyna, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
-matefeature.name = MateName
-swModel.ClearSelection2 (True)
+If nkrtk = True Then
+    If pdkls = True Then
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Nakrętka-sprężyna wzdłużne"
+        FirstSelection = "Plane3@" + nakrętka & "@" + AssemblyName
+        SecondSelection = "Plane1@" + sprężyna & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Nakrętka-sprężyna poprzeczne"
+        FirstSelection = "Plane2@" + nakrętka & "@" + AssemblyName
+        SecondSelection = "Plane2@" + sprężyna & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Nakrętka-sprężyna czołowe"
+        FirstSelection = "Plane1@" + nakrętka & "@" + AssemblyName
+        SecondSelection = "Plane3@" + sprężyna & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateDISTANCE, swMateAlignALIGNED, False, D_sprężyna, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+    End If
+    If pdkl2 = True Then
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-nakrętka wzdłużne"
+        FirstSelection = "Plane3@" + nakrętka & "@" + AssemblyName
+        SecondSelection = "Plane1@" + podkładka2 & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-nakrętka poprzeczne"
+        FirstSelection = "Plane2@" + nakrętka & "@" + AssemblyName
+        SecondSelection = "Plane2@" + podkładka2 & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-nakrętka czołowe"
+        FirstSelection = "Plane1@" + nakrętka & "@" + AssemblyName
+        SecondSelection = "Plane3@" + podkładka2 & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateDISTANCE, swMateAlignALIGNED, False, D_podkładka, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+    ElseIf pdkl1 = True Then
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-nakrętka wzdłużne"
+        FirstSelection = "Plane3@" + nakrętka & "@" + AssemblyName
+        SecondSelection = "Plane1@" + podkładka & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-nakrętka poprzeczne"
+        FirstSelection = "Plane2@" + nakrętka & "@" + AssemblyName
+        SecondSelection = "Plane2@" + podkładka & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateCOINCIDENT, swMateAlignANTI_ALIGNED, False, 0, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+        '-----------------------------------------------------------
+        ' Create the name of the mate and the names of the planes to use for the mate
+        MateName = "Podkładka-nakrętka czołowe"
+        FirstSelection = "Plane1@" + nakrętka & "@" + AssemblyName
+        SecondSelection = "Plane3@" + podkładka & "@" + AssemblyName
+        swModel.ClearSelection2 (True)
+        ' Select the planes to mate
+        boolstat = swDocExt.SelectByID2(FirstSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        boolstat = swDocExt.SelectByID2(SecondSelection, "PLANE", 0, 0, 0, True, 1, Nothing, swSelectOptionDefault)
+        ' Add the mate
+        Set matefeature = swAssy.AddMate5(swMateDISTANCE, swMateAlignALIGNED, False, D_podkładka, 0, 0, 0, 0, 0, 0, 0, False, False, 0, mateError)
+        matefeature.name = MateName
+        swModel.ClearSelection2 (True)
+    End If
+End If
 
+ent:
 Exit Sub
 ErrorHandler:
     MsgBox "An error occured!"
