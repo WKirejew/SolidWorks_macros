@@ -34,6 +34,10 @@ End Sub
 Private Sub CheckBox1_Click()
 
 Frame2.Enabled = CheckBox3.Value And CheckBox1.Value
+CheckBox3.Enabled = CheckBox1.Value
+If CheckBox1.Value = False Then
+    CheckBox3.Value = CheckBox1.Value
+End If
 ComboBox3.Enabled = CheckBox1.Value
 
 End Sub
@@ -79,7 +83,7 @@ End Sub
 Private Sub ComboBox3_DropButtonClick()
 
 Dim Pdkl As Variant
-Pdkl = Array("Podkładka falista czarna oksydacja DIN 137", "Podkładka falista ocynk DIN 137", "Podkładka okrągła czarna oksydacja DIN 125", "Podkładka okrągła ocynk DIN 125", "Podkładka okrągła powiększona czarna oksydacja DIN_9021", "Podkładka okrągła powiększona ocynk DIN 9021", "Podkładka okrągła powiększona stal nierdzewna DIN 9021", "Podkładka okrągła stal nierdzewna DIN 125", "Podkładka ząbkowana czarna oksydacja DIN 6798", "Podkładka ząbkowana ocynk DIN 6798", "Podkładka ząbkowana stal nierdzewna DIN 6798")
+Pdkl = Array("Podkładka okrągła czarna oksydacja DIN 125", "Podkładka okrągła ocynk DIN 125", "Podkładka okrągła stal nierdzewna DIN 125", "Podkładka okrągła powiększona czarna oksydacja DIN_9021", "Podkładka okrągła powiększona ocynk DIN 9021", "Podkładka okrągła powiększona stal nierdzewna DIN 9021", "Podkładka falista czarna oksydacja DIN 137", "Podkładka falista ocynk DIN 137", "Podkładka ząbkowana czarna oksydacja DIN 6798", "Podkładka ząbkowana ocynk DIN 6798", "Podkładka ząbkowana stal nierdzewna DIN 6798")
 ComboBox3.List() = Pdkl
 
 End Sub
@@ -87,7 +91,7 @@ End Sub
 Private Sub ComboBox4_DropButtonClick()
 
 Dim Typy As Variant
-Typy = Array("Śruba z łbem radełkowanym czarna oksydacja DIN 653", "Śruba z łbem radełkowanym niskim ocynk DIN 653", "Śruba z łbem radełkowanym stal nierdzewna DIN 653", "Śruba z łbem sześciokątnym czarna oksydacja DIN 931", "Śruba z łbem sześciokątnym ocynk DIN 931", "Śruba z łbem sześciokątnym ocynk DIN 933", "Śruba z łbem sześciokątnym stal nierdzewna DIN 931", "Wkręt soczewka ampul czarna oksydacja DIN 7380", "Wkręt soczewka ampul ocynk DIN 7380", "Wkręt soczewka ampul stal nierdzewna DIN 7380", "Wkręt stożkowy ampul czarna oksydacja DIN 7991", "Wkręt stożkowy ampul czarna stal nierdzewna DIN 7991", "Wkręt stożkowy ampul ocynk DIN 7991", "Wkręt stożkowy krzyżak czarna oksydacja DIN 965", "Wkręt stożkowy krzyżak ocynk DIN_965", "Wkręt stożkowy krzyżak stal nierdzewna DIN 965")
+Typy = Array("Śruba z łbem sześciokątnym czarna oksydacja DIN 931", "Śruba z łbem sześciokątnym ocynk DIN 931", "Śruba z łbem sześciokątnym ocynk DIN 933", "Śruba z łbem sześciokątnym stal nierdzewna DIN 931", "Wkręt soczewka ampul czarna oksydacja DIN 7380", "Wkręt soczewka ampul ocynk DIN 7380", "Wkręt soczewka ampul stal nierdzewna DIN 7380", "Wkręt stożkowy ampul czarna oksydacja DIN 7991", "Wkręt stożkowy ampul czarna stal nierdzewna DIN 7991", "Wkręt stożkowy ampul ocynk DIN 7991", "Wkręt stożkowy krzyżak czarna oksydacja DIN 965", "Wkręt stożkowy krzyżak ocynk DIN_965", "Wkręt stożkowy krzyżak stal nierdzewna DIN 965", "Śruba z łbem radełkowanym czarna oksydacja DIN 653", "Śruba z łbem radełkowanym niskim ocynk DIN 653", "Śruba z łbem radełkowanym stal nierdzewna DIN 653")
 ComboBox4.List() = Typy
 
 End Sub
@@ -105,8 +109,8 @@ End Sub
 Private Sub ComboBox5_DropButtonClick()
 
 Dim pdkl1 As Variant
-pdkl1 = Array("Podkładka falista czarna oksydacja DIN 137", "Podkładka falista ocynk DIN 137", "Podkładka okrągła czarna oksydacja DIN 125", "Podkładka okrągła ocynk DIN 125", "Podkładka okrągła powiększona czarna oksydacja DIN_9021", "Podkładka okrągła powiększona ocynk DIN 9021", "Podkładka okrągła powiększona stal nierdzewna DIN 9021", "Podkładka okrągła stal nierdzewna DIN 125", "Podkładka ząbkowana czarna oksydacja DIN 6798", "Podkładka ząbkowana ocynk DIN 6798", "Podkładka ząbkowana stal nierdzewna DIN 6798")
-ComboBox5.List() = pdkl1
+pdk1 = Array("Podkładka okrągła czarna oksydacja DIN 125", "Podkładka okrągła ocynk DIN 125", "Podkładka okrągła stal nierdzewna DIN 125", "Podkładka okrągła powiększona czarna oksydacja DIN_9021", "Podkładka okrągła powiększona ocynk DIN 9021", "Podkładka okrągła powiększona stal nierdzewna DIN 9021", "Podkładka falista czarna oksydacja DIN 137", "Podkładka falista ocynk DIN 137", "Podkładka ząbkowana czarna oksydacja DIN 6798", "Podkładka ząbkowana ocynk DIN 6798", "Podkładka ząbkowana stal nierdzewna DIN 6798")
+ComboBox5.List() = pdk1
 
 End Sub
 
@@ -116,9 +120,9 @@ End Sub
 
 Private Sub ComboBox6_DropButtonClick()
 
-Dim pdkls As Variant
-pdkls = Array("Podkładka sprężysta czarna oksydacja DIN 127", "Podkładka sprężysta ocynk DIN 127", "Podkładka sprężysta stal nierdzewna DIN 127")
-ComboBox6.List() = pdkls
+Dim pds As Variant
+pds = Array("Podkładka sprężysta czarna oksydacja DIN 127", "Podkładka sprężysta ocynk DIN 127", "Podkładka sprężysta stal nierdzewna DIN 127")
+ComboBox6.List() = pds
 
 
 End Sub
@@ -162,7 +166,7 @@ AA = "Nakrętka sześciokątna niska drobnozwojna stal nierdzewna DIN 439"
 AB = "Nakrętka sześciokątna niska ocynk DIN 439"
 
 Dim Typy As Variant
-Typy = Array(J, K, L, M, N, O, P, R, S, T, U, V, W, X, Y, Z, AA, AB, A, B, C, D, E, F, G, H, I)
+Typy = Array(B, F, AB, A, C, D, E, U, V, W, X, Y, Z, AA, P, R, S, T, J, K, L, M, N, O, G, H, I)
 ComboBox7.List() = Typy
 
 End Sub
@@ -201,12 +205,14 @@ End Sub
 
 Private Sub ExitButton_Click()
     
+    Exit1 = True
     Unload Me
     
 End Sub
 
 Private Sub OkButton_Click()
     
+Exit1 = False
 Select Case ComboBox3.Value
     Case "Podkładka falista czarna oksydacja DIN 137"
         pdk_DIN = "DIN 137"
@@ -250,67 +256,67 @@ Select Case ComboBox4.Value
     Case "Śruba z łbem radełkowanym czarna oksydacja DIN 653"
         srb_DIN = "DIN 653"
         srb_mat = " co"
-        srb_typ = "Śruby/"
+        srb_typ = "Śruby\"
     Case "Śruba z łbem radełkowanym ocynk DIN 653"
         srb_DIN = "DIN 653"
         srb_mat = " oc"
-        srb_typ = "Śruby/"
+        srb_typ = "Śruby\"
     Case "Śruba z łbem radełkowanym stal nierdzewna DIN 653"
         srb_DIN = "DIN 653"
         srb_mat = " sn"
-        srb_typ = "Śruby/"
+        srb_typ = "Śruby\"
     Case "Śruba z łbem sześciokątnym czarna oksydacja DIN 931"
         srb_DIN = "DIN 931"
         srb_mat = " co"
-        srb_typ = "Śruby/"
+        srb_typ = "Śruby\"
     Case "Śruba z łbem sześciokątnym ocynk DIN 931"
         srb_DIN = "DIN 931"
         srb_mat = " oc"
-        srb_typ = "Śruby/"
+        srb_typ = "Śruby\"
     Case "Śruba z łbem sześciokątnym stal nierdzewna DIN 931"
         srb_DIN = "DIN 931"
         srb_mat = " sn"
-        srb_typ = "Śruby/"
+        srb_typ = "Śruby\"
     Case "Śruba z łbem sześciokątnym ocynk DIN 933"
         srb_DIN = "DIN 933"
         srb_mat = " oc"
-        srb_typ = "Śruby/"
+        srb_typ = "Śruby\"
     Case "Wkręt soczewka ampul czarna oksydacja DIN 7380"
         srb_DIN = "DIN 7380"
         srb_mat = " co"
-        srb_typ = "Wkręty soczewki/"
+        srb_typ = "Wkręty soczewki\"
     Case "Wkręt soczewka ampul ocynk DIN 7380"
         srb_DIN = "DIN 7380"
         srb_mat = " oc"
-        srb_typ = "Wkręty soczewki/"
+        srb_typ = "Wkręty soczewki\"
     Case "Wkręt soczewka ampul stal nierdzewna DIN 7380"
         srb_DIN = "DIN 7380"
         srb_mat = " sn"
-        srb_typ = "Wkręty soczewki/"
+        srb_typ = "Wkręty soczewki\"
     Case "Wkręt stożkowy ampul czarna oksydacja DIN 7991"
         srb_DIN = "DIN 7991"
         srb_mat = " co"
-        srb_typ = "Wkręty stożki/"
+        srb_typ = "Wkręty stożki\"
     Case "Wkręt stożkowy ampul ocynk DIN 7991"
         srb_DIN = "DIN 7991"
         srb_mat = " oc"
-        srb_typ = "Wkręty stożki/"
+        srb_typ = "Wkręty stożki\"
     Case "Wkręt stożkowy ampul stal nierdzewna DIN 7991"
         srb_DIN = "DIN 7991"
         srb_mat = " sn"
-        srb_typ = "Wkręty stożki/"
+        srb_typ = "Wkręty stożki\"
     Case "Wkręt stożkowy krzyżak czarna oksydacja DIN 965"
         srb_DIN = "DIN 965"
         srb_mat = " co"
-        srb_typ = "Wkręty stożki/"
+        srb_typ = "Wkręty stożki\"
     Case "Wkręt stożkowy krzyżak ocynk DIN 965"
         srb_DIN = "DIN 965"
         srb_mat = " oc"
-        srb_typ = "Wkręty stożki/"
+        srb_typ = "Wkręty stożki\"
     Case "Wkręt stożkowy krzyżak stal nierdzewna DIN 965"
         srb_DIN = "DIN 965"
         srb_mat = " sn"
-        srb_typ = "Wkręty stożki/"
+        srb_typ = "Wkręty stożki\"
 End Select
 
 Select Case ComboBox5.Value
